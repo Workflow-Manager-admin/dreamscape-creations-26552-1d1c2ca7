@@ -22,129 +22,97 @@ function DreamScapeContainer() {
   const [result, setResult] = useState(null); // { type: 'art', url } or { type: 'story', text }
   const resultRef = useRef(null);
 
-  // Simulates AI generation by returning a thematic placeholder based on dream input
+  // Generates art with OpenAI DALL·E API (real image generation) or creates story as before
   const handleGenerate = async () => {
     if (!dream.trim()) return;
     setLoading(true);
     setResult(null);
-    await new Promise((res) => setTimeout(res, 1400 + Math.random() * 800));
 
-    // NATURAL LANGUAGE TEMPLATE SYSTEM STARTS HERE
+    if (mode === "art") {
+      // OpenAI API (DALL·E 2 or DALL·E 3) integration
+      try {
+        // You must set REACT_APP_OPENAI_API_KEY in your environment for this to work.
+        const apiKey = process.env.REACT_APP_OPENAI_API_KEY;
+        if (!apiKey) {
+          throw new Error(
+            "OpenAI API key not found. Please set REACT_APP_OPENAI_API_KEY in your environment."
+          );
+        }
 
-    /**
-     * PUBLIC_INTERFACE
-     * Generates both an art description and a story that explicitly and clearly reference
-     * the user's dream phrase in a template-driven, paraphrased style.
-     * If no strong theme match is found, always embed the prompt in both fields.
-     * This ensures perfect alignment of user intent, visible keywording, and personalization for both outputs.
-     */
-    function generateDreamOutputs(text) {
-      const lc = text.toLowerCase();
+        // You can tune model (e.g., "dall-e-3") and parameters as needed.
+        const dalleModel = "dall-e-3";
+        const prompt = `Dream illustration: ${dream.trim()}`;
+
+        // DALL·E 3 is the most recent available via OpenAI API at time of writing.
+        const response = await axios.post(
+          "https://api.openai.com/v1/images/generations",
+          {
+            prompt,
+            n: 1,
+            model: dalleModel,
+            size: "1024x1024"
+          },
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${apiKey}`
+            }
+          }
+        );
+
+        // Parse result
+        const url =
+          response?.data?.data?.[0]?.url ||
+          response?.data?.data?.[0]?.image_url ||
+          null;
+
+        if (url) {
+          setResult({
+            type: "art",
+            url,
+            alt: `AI-generated art for your dream: "${dream.trim()}"`,
+            prompt: `Dream prompt: "${dream.trim()}"`,
+            description: "A surreal AI-rendered visualization of your dream."
+          });
+        } else {
+          setResult({
+            type: "art",
+            url: "",
+            alt: "No image generated",
+            prompt: `Dream prompt: "${dream.trim()}"`,
+            description:
+              "Sorry, no image was generated for this dream. Please try a more descriptive prompt."
+          });
+        }
+      } catch (err) {
+        setResult({
+          type: "art",
+          url: "",
+          alt: "Image generation failed",
+          prompt: `Dream prompt: "${dream.trim()}"`,
+          description:
+            "Error: Unable to generate art from dream at this time. Please check your API key or try again."
+        });
+        // Optionally, console.error(err);
+      }
+      setLoading(false);
+      return;
+    }
+
+    // STORY GENERATION (unchanged, still local / template-based)
+    function generateDreamStory(text) {
       const trimmedInput = text.trim();
       const inputPhrase = trimmedInput.length > 0 ? trimmedInput : "my dream";
-
-      // Define templates for themed generations
-      const templates = [
-        {
-          name: "haunted house",
-          keywords: ["haunted house", "ghost", "spooky"],
-          art: (phrase) =>
-            `A surreal haunted house scene based directly on the dream: "${phrase}". Ominous shadows, eerie lights, and ghostly whispers fill the night air.`,
-          url: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?fit=crop&w=800&q=80",
-          story: (phrase) =>
-            `Last night I dreamed of "${phrase}". As I stepped into the haunted house, fog hugged the floorboards, and every corner felt alive. Upstairs, a door creaked—beyond lay a room thick with old secrets and invisible presences. The dream left me chilled, certain that "${phrase}" and I were not alone.`
-        },
-        {
-          name: "forest",
-          keywords: ["forest", "woods", "trees"],
-          art: (phrase) =>
-            `A surreal, mist-filled forest generated from "${phrase}". Twisting trunks, glowing moss, and shimmering moonbeams evoke dream-like wandering.`,
-          url: "https://images.unsplash.com/photo-1464983953574-0892a716854b?fit=crop&w=600&q=80",
-          story: (phrase) =>
-            `In my dream of "${phrase}", I wandered beneath trees so tall their leaves fused with starlight. The entire woods seemed to breathe as I walked, and every path led deeper into a world shaped by "${phrase}".`
-        },
-        {
-          name: "ocean",
-          keywords: ["ocean", "sea", "wave"],
-          art: (phrase) =>
-            `Dreamscape of endless waves and luminous tides based on "${phrase}". The sea glows in supernatural hues under a cosmic sky.`,
-          url: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?fit=crop&w=800&q=80",
-          story: (phrase) =>
-            `Floating above the water in my dream of "${phrase}", brilliant fish leapt in arcs and the tides hummed with ancient songs. The coastline blurred, shaped by my desire for "${phrase}" to be endless.`
-        },
-        {
-          name: "mountain",
-          keywords: ["mountain", "peak", "hill"],
-          art: (phrase) =>
-            `A fantastical mountain summit inspired by "${phrase}": pastel clouds, swirling eagles, and a magical windswept peak.`,
-          url: "https://images.unsplash.com/photo-1465101178521-c1a9136a37bf?fit=crop&w=800&q=80",
-          story: (phrase) =>
-            `In my dream I scaled a mountain called "${phrase}". Golden sunlight spilled across the summit as I looked down at a world distant and unreal, the peak secretive and inviting.`
-        },
-        {
-          name: "city",
-          keywords: ["city", "urban", "skyscraper"],
-          art: (phrase) =>
-            `A futuristic cityscape, directly channeling "${phrase}" with neon rivers, endless skyscrapers, and swirling night fog.`,
-          url: "https://images.unsplash.com/photo-1501785888041-af3ef285b470?fit=crop&w=800&q=80",
-          story: (phrase) =>
-            `In my urban dream of "${phrase}", the city pulsed with electric color and infinite possibility. I ran through lavender-lit streets, every sign and shadow shaped by the idea of "${phrase}".`
-        },
-        {
-          name: "desert",
-          keywords: ["desert", "sand", "dune"],
-          art: (phrase) =>
-            `A shifting desert dream, visualizing "${phrase}". Golden dunes, distant mirages, and ancient, whispering winds fill the landscape.`,
-          url: "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?fit=crop&w=800&q=80",
-          story: (phrase) =>
-            `My dream took me across endless sands, where every dune spelled out "${phrase}". The sun gleamed overhead, and I wandered between mirages, always returning to the central mystery of "${phrase}".`
-        }
-      ];
-
-      // Attempt a thematic match
-      for (let t of templates) {
-        if (t.keywords.some((k) => lc.includes(k))) {
-          return {
-            art: {
-              url: t.url,
-              alt: t.art(inputPhrase),
-              prompt: `Dream prompt: "${inputPhrase}"`,
-              description: t.art(inputPhrase)
-            },
-            story: t.story(inputPhrase)
-          };
-        }
-      }
-      // Otherwise, fallback: abstract explicit template always referencing user phrase
-      return {
-        art: {
-          url: "https://images.unsplash.com/photo-1454023492550-5696f8ff10e1?fit=crop&w=800&q=80",
-          alt: `A dreamy scene uniquely created for "${inputPhrase}": clouds twist, staircases loop, and colors pulse—a surreal vision of your dream.`,
-          prompt: `Dream prompt: "${inputPhrase}"`,
-          description: `A dreamy scene uniquely created for "${inputPhrase}": clouds twist, staircases loop, and colors pulse—a surreal vision of your dream.`
-        },
-        story: `In my dream, "${inputPhrase}" blossomed into a world of changing colors, impossible landscapes, and experiences that could only come from my own memory of "${inputPhrase}".`
-      };
+      return `In my dream, "${inputPhrase}" blossomed into a world of changing colors, impossible landscapes, and experiences that could only come from my own memory of "${inputPhrase}".`;
     }
 
-    // Main handleGenerate now uses the strict template system, always passing the user's phrase to both outputs.
-    if (mode === "art") {
-      const gen = generateDreamOutputs(dream);
-      setResult({
-        type: "art",
-        url: gen.art.url,
-        alt: gen.art.alt,
-        prompt: gen.art.prompt,
-        description: gen.art.description
-      });
-    } else {
-      const gen = generateDreamOutputs(dream);
+    setTimeout(() => {
       setResult({
         type: "story",
-        text: gen.story
+        text: generateDreamStory(dream)
       });
-    }
-    setLoading(false);
+      setLoading(false);
+    }, 1300 + Math.random() * 500);
   };
 
   const handleDownload = () => {
