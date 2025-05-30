@@ -21,23 +21,101 @@ function DreamScapeContainer() {
   const [result, setResult] = useState(null); // { type: 'art', url } or { type: 'story', text }
   const resultRef = useRef(null);
 
-  // Simulates AI generation by returning a placeholder after a delay
+  // Simulates AI generation by returning a thematic placeholder based on dream input
   const handleGenerate = async () => {
     if (!dream.trim()) return;
     setLoading(true);
     setResult(null);
     await new Promise((res) => setTimeout(res, 1400 + Math.random() * 800));
+
+    // Deterministic art selection based on dream
+    function getArtForDream(text) {
+      // Lowercase and simple keyword match for demonstration
+      const lc = text.toLowerCase();
+      if (lc.includes("haunted house") || lc.includes("ghost") || lc.includes("spooky")) {
+        return {
+          url: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?fit=crop&w=800&q=80", // dark haunted house
+          alt: "Haunted house at night with eerie lighting"
+        };
+      } else if (lc.includes("forest") || lc.includes("woods") || lc.includes("trees")) {
+        return {
+          url: "https://images.unsplash.com/photo-1464983953574-0892a716854b?fit=crop&w=600&q=80", // forest
+          alt: "Misty surreal forest dreamscape"
+        };
+      } else if (lc.includes("ocean") || lc.includes("sea") || lc.includes("wave")) {
+        return {
+          url: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?fit=crop&w=800&q=80", // ocean
+          alt: "Surreal ocean waves under night sky"
+        };
+      } else if (lc.includes("mountain") || lc.includes("peak") || lc.includes("hill")) {
+        return {
+          url: "https://images.unsplash.com/photo-1465101178521-c1a9136a37bf?fit=crop&w=800&q=80", // mountain
+          alt: "Dreamy mountain under a whimsical sky"
+        };
+      } else if (lc.includes("city") || lc.includes("urban") || lc.includes("skyscraper")) {
+        return {
+          url: "https://images.unsplash.com/photo-1501785888041-af3ef285b470?fit=crop&w=800&q=80", // city
+          alt: "Surreal urban city at night"
+        };
+      } else if (lc.includes("desert") || lc.includes("sand") || lc.includes("dune")) {
+        return {
+          url: "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?fit=crop&w=800&q=80", // desert
+          alt: "Dreamy desert dunes at sunset"
+        };
+      }
+      // Fallback: Abstract dreamy
+      return {
+        url: "https://images.unsplash.com/photo-1454023492550-5696f8ff10e1?fit=crop&w=800&q=80",
+        alt: "Abstract dreamy surreal scene"
+      };
+    }
+
+    // Deterministic story generation based on dream
+    function getStoryForDream(text) {
+      const lc = text.toLowerCase();
+      if (lc.includes("haunted house") || lc.includes("ghost") || lc.includes("spooky")) {
+        return (
+          `Fog clung to the ground as I stepped into the haunted house. Shadows flickered along the peeling walls, and every floorboard groaned with secrets. Upstairs, a door creaked open by itself, revealing a cold room where whispers seemed to twirl in the air. I realized I was not alone—the house was alive with old dreams and restless spirits.`
+        );
+      } else if (lc.includes("forest") || lc.includes("woods") || lc.includes("trees")) {
+        return (
+          `I wandered through a twisting forest where the trees towered like silent giants. Shafts of moonlight danced on mossy roots and the air shimmered with the quiet music of hidden creatures. Each step took me deeper until the branches knitted above, painting the stars with emerald brushstrokes.`
+        );
+      } else if (lc.includes("ocean") || lc.includes("sea") || lc.includes("wave")) {
+        return (
+          `I soared above shimmering waves as translucent fish leapt through the sky. The ocean breathed beneath me, pulsing with secrets as whales sang lullabies. I walked along the water's surface, where reality melted into rippling blue infinity.`
+        );
+      } else if (lc.includes("mountain") || lc.includes("peak") || lc.includes("hill")) {
+        return (
+          `Scaling the mountain peak, I touched clouds that hummed with pastel light. The world below fell silent as golden eagles spiraled around me. At the summit, I discovered an ancient door carved into stone—beyond it, dreams waited to be explored.`
+        );
+      } else if (lc.includes("city") || lc.includes("urban") || lc.includes("skyscraper")) {
+        return (
+          `Neon rivers ran through the city of my dreams, where skyscrapers looped into impossible shapes and the streets glowed lavender. I chased reflections down winding alleys, past silent crowds whose eyes glimmered with unspoken stories.`
+        );
+      } else if (lc.includes("desert") || lc.includes("sand") || lc.includes("dune")) {
+        return (
+          `I crossed endless golden dunes, where the sun gleamed like a waking eye and the wind whispered ancient riddles. Mirage palaces flickered in the heat ahead, inviting me to lose and find myself between the shifting sands.`
+        );
+      }
+      // Fallback: general poetic surreal
+      return (
+        `I drifted into a realm where colors sang and gravity lost its way. Stairs twisted into the sky, and each door I opened revealed another piece of myself made of dreamstuff.`
+      );
+    }
+
     if (mode === "art") {
+      const art = getArtForDream(dream);
       setResult({
         type: "art",
-        // Using a dreamy abstract placeholder image. In real use, replace with AI output.
-        url: "https://images.unsplash.com/photo-1464983953574-0892a716854b?fit=crop&w=600&q=80"
+        url: art.url,
+        alt: art.alt,
+        prompt: dream.trim()
       });
     } else {
-      // Example placeholder surreal story
       setResult({
         type: "story",
-        text: `Last night, I floated atop a violet sea where the clouds whispered my secrets to the moonfish. Starlit stairs led nowhere, yet I climbed and found myself painting rainbows with my shadow.`
+        text: getStoryForDream(dream)
       });
     }
     setLoading(false);
@@ -220,7 +298,8 @@ function DreamScapeContainer() {
             {result.type === "art" ? (
               <img
                 src={result.url}
-                alt="AI surreal art"
+                alt={result.alt || "AI surreal art"}
+                title={result.prompt ? `Prompt: ${result.prompt}` : "AI-generated dream art"}
                 style={{
                   width: "100%",
                   borderRadius: "1em",
