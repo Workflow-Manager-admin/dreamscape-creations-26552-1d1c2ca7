@@ -291,7 +291,8 @@ function DreamScapeContainer() {
           >
             {result.type === "art" ? (
               <div>
-                <img
+                {/* Enhanced image rendering with error handling */}
+                <ImageWithFallback
                   src={result.url}
                   alt={result.alt || "AI surreal art"}
                   title={result.prompt ? `Prompt: ${result.prompt}` : "AI-generated dream art"}
@@ -302,6 +303,19 @@ function DreamScapeContainer() {
                     maxHeight: 288,
                     objectFit: "cover"
                   }}
+                  fallbackText={
+                    !loading && (!result.url || result.url === "") ? (
+                      <div style={{
+                        color: "#c33d3d", background: "#f4eaea", borderRadius: "1em",
+                        padding: "1.7em", textAlign: "center"
+                      }}>
+                        <span style={{fontWeight:500}}>No image generated.</span><br />
+                        <span>
+                          {result.description || "No image could be generated for this prompt."}
+                        </span>
+                      </div>
+                    ) : null
+                  }
                 />
                 <div
                   style={{
@@ -421,6 +435,46 @@ function DreamyToggle({ options, selected, onToggle, disabled }) {
         </button>
       ))}
     </div>
+  );
+}
+
+/**
+ * Renders an <img> tag, handling errors to display a fallback UI if the image cannot be loaded.
+ */
+function ImageWithFallback({ src, alt, style, title, fallbackText }) {
+  const [errored, setErrored] = React.useState(false);
+
+  // Reset error state if src changes
+  React.useEffect(() => {
+    setErrored(false);
+  }, [src]);
+
+  if (!src) {
+    return fallbackText || null;
+  }
+
+  return !errored ? (
+    <img
+      src={src}
+      alt={alt}
+      title={title}
+      style={style}
+      onError={() => setErrored(true)}
+      loading="lazy"
+    />
+  ) : (
+    fallbackText || (
+      <div style={{
+        color: "#c33d3d",
+        background: "#f4eaea",
+        borderRadius: "1em",
+        padding: "2em",
+        textAlign: "center"
+      }}>
+        <span style={{fontWeight:500}}>Unable to load image.</span>
+        <div style={{fontSize:"0.93em", marginTop:"0.5em"}}>The image link provided by OpenAI could not be loaded.</div>
+      </div>
+    )
   );
 }
 
