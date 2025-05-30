@@ -456,3 +456,6 @@ src/DreamScapeContainer.jsx
   Line 78:14:  Parsing error: Unterminated string constant. (78:14)
 
 webpack compiled with 2 errors
+Compiling...
+Compiled successfully!
+webpack compiled successfully

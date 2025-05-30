@@ -75,8 +75,7 @@ function DreamScapeContainer() {
     } else {
       shareData = {
         title: "Dreamscape Story",
-        text: "Check out this AI-generated dream story:
-" + result.text
+        text: "Check out this AI-generated dream story:\n" + result.text
       };
     }
     if (navigator.share) {
@@ -104,7 +103,8 @@ function DreamScapeContainer() {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    background: `radial-gradient(circle at 60% 20%, ${COLORS.gradientStart} 0%, ${COLORS.gradientEnd} 100%)`,
+    background: "radial-gradient(circle at 60% 20%, " + COLORS.gradientStart +
+      " 0%, " + COLORS.gradientEnd + " 100%)",
     transition: "background 0.6s"
   };
   const boxStyles = {
@@ -120,20 +120,20 @@ function DreamScapeContainer() {
   };
 
   const dreamyGlow = {
-    boxShadow: `0 0 40px 0 ${COLORS.accent}55, 0 2px 12px ${COLORS.primary}22`
+    boxShadow: "0 0 40px 0 " + COLORS.accent + "55, 0 2px 12px " + COLORS.primary + "22"
   };
 
   return (
     <div style={containerStyles}>
-      <div style={{...boxStyles, ...dreamyGlow}}>
+      <div style={{ ...boxStyles, ...dreamyGlow }}>
         <h2
           style={{
-            fontFamily: `'Pacifico', cursive, serif`,
+            fontFamily: "'Pacifico', cursive, serif",
             fontWeight: 600,
             letterSpacing: "0.08em",
             marginBottom: "0.6em",
             color: COLORS.primary,
-            textShadow: `0 2px 24px ${COLORS.gradientStart}9b`
+            textShadow: "0 2px 24px " + COLORS.gradientStart + "9b"
           }}
         >
           DreamScape Creations
@@ -145,7 +145,7 @@ function DreamScapeContainer() {
         <textarea
           style={{
             width: "100%",
-            border: `1.7px solid ${COLORS.accent}44`,
+            border: "1.7px solid " + COLORS.accent + "44",
             borderRadius: "1.5rem",
             outline: "none",
             resize: "vertical",
@@ -224,7 +224,7 @@ function DreamScapeContainer() {
                 style={{
                   width: "100%",
                   borderRadius: "1em",
-                  boxShadow: `0 2px 18px 0 ${COLORS.accent}33`,
+                  boxShadow: "0 2px 18px 0 " + COLORS.accent + "33",
                   maxHeight: 288,
                   objectFit: "cover"
                 }}
@@ -263,7 +263,7 @@ function DreamScapeContainer() {
                   borderRadius: "1.2em",
                   background: "#fff",
                   color: COLORS.accent,
-                  border: `1.4px solid ${COLORS.accent}`,
+                  border: "1.4px solid " + COLORS.accent,
                   fontWeight: 500,
                   fontSize: "1rem"
                 }}
@@ -315,7 +315,7 @@ function DreamyToggle({ options, selected, onToggle, disabled }) {
           style={{
             border: "none",
             background: selected === opt.key
-              ? `linear-gradient(112deg, ${COLORS.accent} 60%, #47aeffaa 100%)`
+              ? "linear-gradient(112deg, " + COLORS.accent + " 60%, #47aeffaa 100%)"
               : "transparent",
             color: selected === opt.key ? "#fff" : COLORS.primary,
             fontWeight: selected === opt.key ? 600 : 400,
