@@ -1,0 +1,4 @@
+{
+    "command": "npm install && npx tsc --noEmit && npm test -- --ci",
+    "working_directory": "/home/kavia/workspace/code-generation/dreamscape-creations-26552-1d1c2ca7/dreamscapes_creation"
+}
