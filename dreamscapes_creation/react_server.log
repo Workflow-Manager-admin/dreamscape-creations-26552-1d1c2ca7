@@ -92,3 +92,76 @@ src/DreamScapeContainer.jsx
 
 webpack compiled with 2 errors
 Compiling...
+Failed to compile.
+
+[eslint] 
+src/DreamScapeContainer.jsx
+Syntax error: Unterminated string constant. (78:14) (78:14)
+ERROR in ./src/DreamScapeContainer.jsx
+Module build failed (from ./node_modules/babel-loader/lib/index.js):
+SyntaxError: /home/kavia/workspace/code-generation/dreamscape-creations-26552-1d1c2ca7/dreamscapes_creation/src/DreamScapeContainer.jsx: Unterminated string constant. (78:14)
+
+  76 |       shareData = {
+  77 |         title: "Dreamscape Story",
+> 78 |         text: "Check out this AI-generated dream story:
+     |               ^
+  79 | " + result.text
+  80 |       };
+  81 |     }
+    at constructor (/home/kavia/workspace/code-generation/dreamscape-creations-26552-1d1c2ca7/dreamscapes_creation/node_modules/@babel/parser/lib/index.js:360:19)
+    at FlowParserMixin.raise (/home/kavia/workspace/code-generation/dreamscape-creations-26552-1d1c2ca7/dreamscapes_creation/node_modules/@babel/parser/lib/index.js:3327:19)
+    at Object.unterminated (/home/kavia/workspace/code-generation/dreamscape-creations-26552-1d1c2ca7/dreamscapes_creation/node_modules/@babel/parser/lib/index.js:2395:20)
+    at readStringContents (/home/kavia/workspace/code-generation/dreamscape-creations-26552-1d1c2ca7/dreamscapes_creation/node_modules/@babel/parser/lib/index.js:2137:16)
+    at FlowParserMixin.readString (/home/kavia/workspace/code-generation/dreamscape-creations-26552-1d1c2ca7/dreamscapes_creation/node_modules/@babel/parser/lib/index.js:3226:9)
+    at FlowParserMixin.getTokenFromCode (/home/kavia/workspace/code-generation/dreamscape-creations-26552-1d1c2ca7/dreamscapes_creation/node_modules/@babel/parser/lib/index.js:2986:14)
+    at FlowParserMixin.getTokenFromCode (/home/kavia/workspace/code-generation/dreamscape-creations-26552-1d1c2ca7/dreamscapes_creation/node_modules/@babel/parser/lib/index.js:6970:11)
+    at FlowParserMixin.getTokenFromCode (/home/kavia/workspace/code-generation/dreamscape-creations-26552-1d1c2ca7/dreamscapes_creation/node_modules/@babel/parser/lib/index.js:5419:13)
+    at FlowParserMixin.nextToken (/home/kavia/workspace/code-generation/dreamscape-creations-26552-1d1c2ca7/dreamscapes_creation/node_modules/@babel/parser/lib/index.js:2510:10)
+    at FlowParserMixin.next (/home/kavia/workspace/code-generation/dreamscape-creations-26552-1d1c2ca7/dreamscapes_creation/node_modules/@babel/parser/lib/index.js:2423:10)
+    at FlowParserMixin.eat (/home/kavia/workspace/code-generation/dreamscape-creations-26552-1d1c2ca7/dreamscapes_creation/node_modules/@babel/parser/lib/index.js:2427:12)
+    at FlowParserMixin.parseObjectProperty (/home/kavia/workspace/code-generation/dreamscape-creations-26552-1d1c2ca7/dreamscapes_creation/node_modules/@babel/parser/lib/index.js:11635:14)
+    at FlowParserMixin.parseObjPropValue (/home/kavia/workspace/code-generation/dreamscape-creations-26552-1d1c2ca7/dreamscapes_creation/node_modules/@babel/parser/lib/index.js:11661:100)
+    at FlowParserMixin.parseObjPropValue (/home/kavia/workspace/code-generation/dreamscape-creations-26552-1d1c2ca7/dreamscapes_creation/node_modules/@babel/parser/lib/index.js:5563:26)
+    at FlowParserMixin.parsePropertyDefinition (/home/kavia/workspace/code-generation/dreamscape-creations-26552-1d1c2ca7/dreamscapes_creation/node_modules/@babel/parser/lib/index.js:11601:17)
+    at FlowParserMixin.parseObjectLike (/home/kavia/workspace/code-generation/dreamscape-creations-26552-1d1c2ca7/dreamscapes_creation/node_modules/@babel/parser/lib/index.js:11516:21)
+    at FlowParserMixin.parseExprAtom (/home/kavia/workspace/code-generation/dreamscape-creations-26552-1d1c2ca7/dreamscapes_creation/node_modules/@babel/parser/lib/index.js:11024:23)
+    at FlowParserMixin.parseExprAtom (/home/kavia/workspace/code-generation/dreamscape-creations-26552-1d1c2ca7/dreamscapes_creation/node_modules/@babel/parser/lib/index.js:6937:20)
+    at FlowParserMixin.parseExprSubscripts (/home/kavia/workspace/code-generation/dreamscape-creations-26552-1d1c2ca7/dreamscapes_creation/node_modules/@babel/parser/lib/index.js:10758:23)
+    at FlowParserMixin.parseUpdate (/home/kavia/workspace/code-generation/dreamscape-creations-26552-1d1c2ca7/dreamscapes_creation/node_modules/@babel/parser/lib/index.js:10743:21)
+    at FlowParserMixin.parseMaybeUnary (/home/kavia/workspace/code-generation/dreamscape-creations-26552-1d1c2ca7/dreamscapes_creation/node_modules/@babel/parser/lib/index.js:10723:23)
+    at FlowParserMixin.parseMaybeUnaryOrPrivate (/home/kavia/workspace/code-generation/dreamscape-creations-26552-1d1c2ca7/dreamscapes_creation/node_modules/@babel/parser/lib/index.js:10576:61)
+    at FlowParserMixin.parseExprOps (/home/kavia/workspace/code-generation/dreamscape-creations-26552-1d1c2ca7/dreamscapes_creation/node_modules/@babel/parser/lib/index.js:10581:23)
+    at FlowParserMixin.parseMaybeConditional (/home/kavia/workspace/code-generation/dreamscape-creations-26552-1d1c2ca7/dreamscapes_creation/node_modules/@babel/parser/lib/index.js:10558:23)
+    at FlowParserMixin.parseMaybeAssign (/home/kavia/workspace/code-generation/dreamscape-creations-26552-1d1c2ca7/dreamscapes_creation/node_modules/@babel/parser/lib/index.js:10521:21)
+    at FlowParserMixin.parseMaybeAssign (/home/kavia/workspace/code-generation/dreamscape-creations-26552-1d1c2ca7/dreamscapes_creation/node_modules/@babel/parser/lib/index.js:5773:18)
+    at FlowParserMixin.parseMaybeAssign (/home/kavia/workspace/code-generation/dreamscape-creations-26552-1d1c2ca7/dreamscapes_creation/node_modules/@babel/parser/lib/index.js:10547:25)
+    at FlowParserMixin.parseMaybeAssign (/home/kavia/workspace/code-generation/dreamscape-creations-26552-1d1c2ca7/dreamscapes_creation/node_modules/@babel/parser/lib/index.js:5773:18)
+    at FlowParserMixin.parseExpressionBase (/home/kavia/workspace/code-generation/dreamscape-creations-26552-1d1c2ca7/dreamscapes_creation/node_modules/@babel/parser/lib/index.js:10475:23)
+    at /home/kavia/workspace/code-generation/dreamscape-creations-26552-1d1c2ca7/dreamscapes_creation/node_modules/@babel/parser/lib/index.js:10471:39
+    at FlowParserMixin.allowInAnd (/home/kavia/workspace/code-generation/dreamscape-creations-26552-1d1c2ca7/dreamscapes_creation/node_modules/@babel/parser/lib/index.js:12095:16)
+    at FlowParserMixin.parseExpression (/home/kavia/workspace/code-generation/dreamscape-creations-26552-1d1c2ca7/dreamscapes_creation/node_modules/@babel/parser/lib/index.js:10471:17)
+    at FlowParserMixin.parseStatementContent (/home/kavia/workspace/code-generation/dreamscape-creations-26552-1d1c2ca7/dreamscapes_creation/node_modules/@babel/parser/lib/index.js:12539:23)
+    at FlowParserMixin.parseStatementLike (/home/kavia/workspace/code-generation/dreamscape-creations-26552-1d1c2ca7/dreamscapes_creation/node_modules/@babel/parser/lib/index.js:12406:17)
+    at FlowParserMixin.parseStatementLike (/home/kavia/workspace/code-generation/dreamscape-creations-26552-1d1c2ca7/dreamscapes_creation/node_modules/@babel/parser/lib/index.js:5140:24)
+    at FlowParserMixin.parseStatementListItem (/home/kavia/workspace/code-generation/dreamscape-creations-26552-1d1c2ca7/dreamscapes_creation/node_modules/@babel/parser/lib/index.js:12386:17)
+    at FlowParserMixin.parseBlockOrModuleBlockBody (/home/kavia/workspace/code-generation/dreamscape-creations-26552-1d1c2ca7/dreamscapes_creation/node_modules/@babel/parser/lib/index.js:12960:61)
+    at FlowParserMixin.parseBlockBody (/home/kavia/workspace/code-generation/dreamscape-creations-26552-1d1c2ca7/dreamscapes_creation/node_modules/@babel/parser/lib/index.js:12953:10)
+    at FlowParserMixin.parseBlock (/home/kavia/workspace/code-generation/dreamscape-creations-26552-1d1c2ca7/dreamscapes_creation/node_modules/@babel/parser/lib/index.js:12941:10)
+    at FlowParserMixin.parseStatementContent (/home/kavia/workspace/code-generation/dreamscape-creations-26552-1d1c2ca7/dreamscapes_creation/node_modules/@babel/parser/lib/index.js:12496:21)
+    at FlowParserMixin.parseStatementLike (/home/kavia/workspace/code-generation/dreamscape-creations-26552-1d1c2ca7/dreamscapes_creation/node_modules/@babel/parser/lib/index.js:12406:17)
+    at FlowParserMixin.parseStatementLike (/home/kavia/workspace/code-generation/dreamscape-creations-26552-1d1c2ca7/dreamscapes_creation/node_modules/@babel/parser/lib/index.js:5140:24)
+    at FlowParserMixin.parseStatementOrSloppyAnnexBFunctionDeclaration (/home/kavia/workspace/code-generation/dreamscape-creations-26552-1d1c2ca7/dreamscapes_creation/node_modules/@babel/parser/lib/index.js:12396:17)
+    at FlowParserMixin.parseIfStatement (/home/kavia/workspace/code-generation/dreamscape-creations-26552-1d1c2ca7/dreamscapes_creation/node_modules/@babel/parser/lib/index.js:12775:42)
+    at FlowParserMixin.parseStatementContent (/home/kavia/workspace/code-generation/dreamscape-creations-26552-1d1c2ca7/dreamscapes_creation/node_modules/@babel/parser/lib/index.js:12435:21)
+    at FlowParserMixin.parseStatementLike (/home/kavia/workspace/code-generation/dreamscape-creations-26552-1d1c2ca7/dreamscapes_creation/node_modules/@babel/parser/lib/index.js:12406:17)
+    at FlowParserMixin.parseStatementLike (/home/kavia/workspace/code-generation/dreamscape-creations-26552-1d1c2ca7/dreamscapes_creation/node_modules/@babel/parser/lib/index.js:5140:24)
+    at FlowParserMixin.parseStatementListItem (/home/kavia/workspace/code-generation/dreamscape-creations-26552-1d1c2ca7/dreamscapes_creation/node_modules/@babel/parser/lib/index.js:12386:17)
+    at FlowParserMixin.parseBlockOrModuleBlockBody (/home/kavia/workspace/code-generation/dreamscape-creations-26552-1d1c2ca7/dreamscapes_creation/node_modules/@babel/parser/lib/index.js:12960:61)
+    at FlowParserMixin.parseBlockBody (/home/kavia/workspace/code-generation/dreamscape-creations-26552-1d1c2ca7/dreamscapes_creation/node_modules/@babel/parser/lib/index.js:12953:10)
+
+ERROR in [eslint] 
+src/DreamScapeContainer.jsx
+  Line 78:14:  Parsing error: Unterminated string constant. (78:14)
+
+webpack compiled with 2 errors
+Compiling...
