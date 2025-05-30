@@ -1,6 +1,12 @@
 import React from 'react';
 import './App.css';
+import DreamScapeContainer from './DreamScapeContainer';
 
+/**
+ * PUBLIC_INTERFACE
+ * App root for DreamScape Creations.
+ * Renders navbar and the main DreamScapeContainer.
+ */
 function App() {
   return (
     <div className="app">
@@ -8,27 +14,16 @@ function App() {
         <div className="container">
           <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
             <div className="logo">
-              <span className="logo-symbol">*</span> KAVIA AI
+              <span className="logo-symbol">*</span> DreamScape Creations
             </div>
-            <button className="btn">Template Button</button>
+            <button className="btn" tabIndex={-1} style={{ opacity: 0.65, cursor: "not-allowed" }}>
+              Powered by KAVIA
+            </button>
           </div>
         </div>
       </nav>
-
       <main>
-        <div className="container">
-          <div className="hero">
-            <div className="subtitle">AI Workflow Manager Template</div>
-            
-            <h1 className="title">dreamscapes_creation</h1>
-            
-            <div className="description">
-              Start building your application.
-            </div>
-            
-            <button className="btn btn-large">Button</button>
-          </div>
-        </div>
+        <DreamScapeContainer />
       </main>
     </div>
   );
