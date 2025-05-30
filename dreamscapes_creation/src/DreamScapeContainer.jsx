@@ -28,79 +28,97 @@ function DreamScapeContainer() {
     setResult(null);
     await new Promise((res) => setTimeout(res, 1400 + Math.random() * 800));
 
-    // Deterministic art selection based on dream
+    // Deterministic art selection based on dream, with more stringent topical insertion
     function getArtForDream(text) {
       // Lowercase and simple keyword match for demonstration
       const lc = text.toLowerCase();
-      if (lc.includes("haunted house") || lc.includes("ghost") || lc.includes("spooky")) {
-        return {
+      const trimmedInput = text.trim();
+
+      // Define mapping of keywords to art images
+      const themes = [
+        {
+          keywords: ["haunted house", "ghost", "spooky"],
           url: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?fit=crop&w=800&q=80", // dark haunted house
-          alt: "Haunted house at night with eerie lighting"
-        };
-      } else if (lc.includes("forest") || lc.includes("woods") || lc.includes("trees")) {
-        return {
+          altGen: `A surreal scene depicting "${trimmedInput}" as a haunted house at night with eerie lighting`
+        },
+        {
+          keywords: ["forest", "woods", "trees"],
           url: "https://images.unsplash.com/photo-1464983953574-0892a716854b?fit=crop&w=600&q=80", // forest
-          alt: "Misty surreal forest dreamscape"
-        };
-      } else if (lc.includes("ocean") || lc.includes("sea") || lc.includes("wave")) {
-        return {
+          altGen: `A dreamlike vision of "${trimmedInput}" as a misty, surreal forest landscape`
+        },
+        {
+          keywords: ["ocean", "sea", "wave"],
           url: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?fit=crop&w=800&q=80", // ocean
-          alt: "Surreal ocean waves under night sky"
-        };
-      } else if (lc.includes("mountain") || lc.includes("peak") || lc.includes("hill")) {
-        return {
+          altGen: `An imaginative rendering of "${trimmedInput}" featuring surreal ocean waves under a night sky`
+        },
+        {
+          keywords: ["mountain", "peak", "hill"],
           url: "https://images.unsplash.com/photo-1465101178521-c1a9136a37bf?fit=crop&w=800&q=80", // mountain
-          alt: "Dreamy mountain under a whimsical sky"
-        };
-      } else if (lc.includes("city") || lc.includes("urban") || lc.includes("skyscraper")) {
-        return {
+          altGen: `Dreamy mountains and whimsical sky, inspired by "${trimmedInput}"`
+        },
+        {
+          keywords: ["city", "urban", "skyscraper"],
           url: "https://images.unsplash.com/photo-1501785888041-af3ef285b470?fit=crop&w=800&q=80", // city
-          alt: "Surreal urban city at night"
-        };
-      } else if (lc.includes("desert") || lc.includes("sand") || lc.includes("dune")) {
-        return {
+          altGen: `A surreal urban nightscape based on "${trimmedInput}"`
+        },
+        {
+          keywords: ["desert", "sand", "dune"],
           url: "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?fit=crop&w=800&q=80", // desert
-          alt: "Dreamy desert dunes at sunset"
-        };
+          altGen: `Desert dunes and mysterious atmosphere, visualizing "${trimmedInput}"`
+        }
+      ];
+      for (let t of themes) {
+        if (t.keywords.some(k => lc.includes(k))) {
+          return {
+            url: t.url,
+            alt: t.altGen,
+            usedPrompt: trimmedInput
+          };
+        }
       }
-      // Fallback: Abstract dreamy
+      // Fallback: Abstract dreamy personalized
       return {
         url: "https://images.unsplash.com/photo-1454023492550-5696f8ff10e1?fit=crop&w=800&q=80",
-        alt: "Abstract dreamy surreal scene"
+        alt: `Abstract dreamy surreal scene illustrating: "${trimmedInput}"`,
+        usedPrompt: trimmedInput
       };
     }
 
-    // Deterministic story generation based on dream
+    // Deterministic story, explicitly inserting user phrase and combining with template
     function getStoryForDream(text) {
       const lc = text.toLowerCase();
+      const trimmedInput = text.trim();
+      const inputPhrase = trimmedInput.length > 0 ? trimmedInput : "my dream";
+
+      // Helper to embed the phrase in the generated story
       if (lc.includes("haunted house") || lc.includes("ghost") || lc.includes("spooky")) {
         return (
-          `Fog clung to the ground as I stepped into the haunted house. Shadows flickered along the peeling walls, and every floorboard groaned with secrets. Upstairs, a door creaked open by itself, revealing a cold room where whispers seemed to twirl in the air. I realized I was not alone—the house was alive with old dreams and restless spirits.`
+          `In my dream about "${inputPhrase}", fog clung to the ground as I stepped into the haunted house. Shadows flickered along the peeling walls, and every floorboard groaned with secrets. Upstairs, a door creaked open by itself, revealing a cold room where whispers seemed to twirl in the air. I realized I was not alone—the house was alive with old dreams and restless spirits.`
         );
       } else if (lc.includes("forest") || lc.includes("woods") || lc.includes("trees")) {
         return (
-          `I wandered through a twisting forest where the trees towered like silent giants. Shafts of moonlight danced on mossy roots and the air shimmered with the quiet music of hidden creatures. Each step took me deeper until the branches knitted above, painting the stars with emerald brushstrokes.`
+          `Last night, I found myself in a dream of "${inputPhrase}". I wandered through a twisting forest where the trees towered like silent giants. Shafts of moonlight danced on mossy roots and the air shimmered with the quiet music of hidden creatures. Each step took me deeper until the branches knitted above, painting the stars with emerald brushstrokes.`
         );
       } else if (lc.includes("ocean") || lc.includes("sea") || lc.includes("wave")) {
         return (
-          `I soared above shimmering waves as translucent fish leapt through the sky. The ocean breathed beneath me, pulsing with secrets as whales sang lullabies. I walked along the water's surface, where reality melted into rippling blue infinity.`
+          `I dreamed about "${inputPhrase}", soaring above shimmering waves as translucent fish leapt through the sky. The ocean breathed beneath me, pulsing with secrets as whales sang lullabies. I walked along the water's surface, where reality melted into rippling blue infinity.`
         );
       } else if (lc.includes("mountain") || lc.includes("peak") || lc.includes("hill")) {
         return (
-          `Scaling the mountain peak, I touched clouds that hummed with pastel light. The world below fell silent as golden eagles spiraled around me. At the summit, I discovered an ancient door carved into stone—beyond it, dreams waited to be explored.`
+          `Scaling the mountain of "${inputPhrase}", I touched clouds that hummed with pastel light. The world below fell silent as golden eagles spiraled around me. At the summit, I discovered an ancient door carved into stone—beyond it, dreams waited to be explored.`
         );
       } else if (lc.includes("city") || lc.includes("urban") || lc.includes("skyscraper")) {
         return (
-          `Neon rivers ran through the city of my dreams, where skyscrapers looped into impossible shapes and the streets glowed lavender. I chased reflections down winding alleys, past silent crowds whose eyes glimmered with unspoken stories.`
+          `In my dream of "${inputPhrase}", neon rivers ran through the city where skyscrapers looped into impossible shapes and the streets glowed lavender. I chased reflections down winding alleys, past silent crowds whose eyes glimmered with unspoken stories.`
         );
       } else if (lc.includes("desert") || lc.includes("sand") || lc.includes("dune")) {
         return (
-          `I crossed endless golden dunes, where the sun gleamed like a waking eye and the wind whispered ancient riddles. Mirage palaces flickered in the heat ahead, inviting me to lose and find myself between the shifting sands.`
+          `I crossed endless golden dunes in a dream about "${inputPhrase}", where the sun gleamed like a waking eye and the wind whispered ancient riddles. Mirage palaces flickered in the heat ahead, inviting me to lose and find myself between the shifting sands.`
         );
       }
-      // Fallback: general poetic surreal
+      // Fallback: always directly reference the user's phrase in opening and closing
       return (
-        `I drifted into a realm where colors sang and gravity lost its way. Stairs twisted into the sky, and each door I opened revealed another piece of myself made of dreamstuff.`
+        `In my dream, "${inputPhrase}" unfolded into a realm where colors sang and gravity lost its way. Stairs twisted into the sky, and each door I opened revealed another piece of my experience—each one colored by "${inputPhrase}".`
       );
     }
 
@@ -110,7 +128,7 @@ function DreamScapeContainer() {
         type: "art",
         url: art.url,
         alt: art.alt,
-        prompt: dream.trim()
+        prompt: dream.trim() ? `Dream prompt: "${dream.trim()}"` : undefined
       });
     } else {
       setResult({
