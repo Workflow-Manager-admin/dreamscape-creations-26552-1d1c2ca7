@@ -321,18 +321,36 @@ function DreamScapeContainer() {
             }}
           >
             {result.type === "art" ? (
-              <img
-                src={result.url}
-                alt={result.alt || "AI surreal art"}
-                title={result.prompt ? `Prompt: ${result.prompt}` : "AI-generated dream art"}
-                style={{
-                  width: "100%",
-                  borderRadius: "1em",
-                  boxShadow: "0 2px 18px 0 " + COLORS.accent + "33",
-                  maxHeight: 288,
-                  objectFit: "cover"
-                }}
-              />
+              <div>
+                <img
+                  src={result.url}
+                  alt={result.alt || "AI surreal art"}
+                  title={result.prompt ? `Prompt: ${result.prompt}` : "AI-generated dream art"}
+                  style={{
+                    width: "100%",
+                    borderRadius: "1em",
+                    boxShadow: "0 2px 18px 0 " + COLORS.accent + "33",
+                    maxHeight: 288,
+                    objectFit: "cover"
+                  }}
+                />
+                <div
+                  style={{
+                    color: COLORS.primary,
+                    fontFamily: "'Merriweather', 'Georgia', serif",
+                    marginTop: "0.8em",
+                    fontSize: "1rem",
+                    textAlign: "center",
+                    opacity: 0.92
+                  }}
+                >
+                  {result.description && (
+                    <span>
+                      <strong>Dream Visualization:</strong> {result.description}
+                    </span>
+                  )}
+                </div>
+              </div>
             ) : (
               <div
                 style={{
