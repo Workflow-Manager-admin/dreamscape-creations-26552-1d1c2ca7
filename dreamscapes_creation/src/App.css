@@ -4,15 +4,26 @@
   --text-color: #ffffff;
   --text-secondary: rgba(255, 255, 255, 0.7);
   --border-color: rgba(255, 255, 255, 0.1);
+
+  /* Dreamscape palette */
+  --primary: #0d0d0d;
+  --secondary: #F8F8FF;
+  --accent: #029fed;
+  --gradient-start: #96c7ff;
+  --gradient-end: #e7e6ff;
 }
 
 body {
   margin: 0;
-  font-family: 'Inter', 'Roboto', 'Helvetica', 'Arial', sans-serif;
-  background-color: var(--kavia-dark);
-  color: var(--text-color);
+  font-family: 'Inter', 'Roboto', 'Helvetica', 'Arial', 'Merriweather', sans-serif;
+  background:
+    radial-gradient(at 70% 15%, #e7eefe 0%, #d0e4f7 80%, #f8f8ff 100%),
+    linear-gradient(158deg, #f8f8ff 40%, #d8eafd 100%);
+  color: var(--primary);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+  transition: background 0.7s;
 }
 
 .app {
