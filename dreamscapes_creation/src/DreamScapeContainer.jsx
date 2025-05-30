@@ -190,9 +190,7 @@ function DreamScapeContainer() {
             borderRadius: "1.7rem",
             marginBottom: "1.1rem",
             background: loading
-              ? `repeating-linear-gradient(
-                  -25deg, #93cef6 0 25px,#f8f8ff 25px 50px
-                )`
+              ? "repeating-linear-gradient(-25deg, #93cef6 0 25px,#f8f8ff 25px 50px)"
               : COLORS.accent,
             color: loading ? "#2367b5" : "#fff",
             transition: "all 0.18s"
