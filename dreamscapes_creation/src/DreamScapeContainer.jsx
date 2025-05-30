@@ -44,29 +44,57 @@ function DreamScapeContainer() {
         const prompt = `Dream illustration: ${dream.trim()}`;
 
         // DALL·E 3 is the most recent available via OpenAI API at time of writing.
-        const response = await axios.post(
-          "https://api.openai.com/v1/images/generations",
-          {
-            prompt,
-            n: 1,
-            model: dalleModel,
-            size: "1024x1024"
-          },
-          {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${apiKey}`
+        let response;
+        try {
+          response = await axios.post(
+            "https://api.openai.com/v1/images/generations",
+            {
+              prompt,
+              n: 1,
+              model: dalleModel,
+              size: "1024x1024"
+            },
+            {
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${apiKey}`
+              }
             }
-          }
-        );
+          );
+        } catch (apiErr) {
+          // Log error for debugging (incl. 401s, network, etc)
+          // eslint-disable-next-line no-console
+          console.error("DALL·E API error:", apiErr?.response?.status, apiErr?.response?.data || apiErr.message);
+          setResult({
+            type: "art",
+            url: "",
+            alt: "Image generation failed",
+            prompt: `Dream prompt: "${dream.trim()}"`,
+            description:
+              (apiErr?.response?.status === 401
+                ? "Authentication failed. Please check and set a valid OpenAI API key."
+                : "Error: Unable to generate art from dream at this time. Please check your API key or try again."
+              ) + (apiErr?.response?.data?.error?.message
+                ? ` (${apiErr?.response?.data?.error?.message})`
+                : "")
+          });
+          setLoading(false);
+          return;
+        }
 
-        // Parse result
+        // Debug/log API response for troubleshooting (optional - can comment out in production)
+        if (process.env.NODE_ENV !== "production") {
+          // eslint-disable-next-line no-console
+          console.log("[DALL·E API response]", response?.status, response?.data);
+        }
+
+        // Parse result robustly
         const url =
           response?.data?.data?.[0]?.url ||
           response?.data?.data?.[0]?.image_url ||
           null;
 
-        if (url) {
+        if (url && /^https?:\/\//.test(url)) {
           setResult({
             type: "art",
             url,
@@ -81,7 +109,8 @@ function DreamScapeContainer() {
             alt: "No image generated",
             prompt: `Dream prompt: "${dream.trim()}"`,
             description:
-              "Sorry, no image was generated for this dream. Please try a more descriptive prompt."
+              "Sorry, no image was generated for this dream. Please try a more descriptive prompt." +
+              (url ? ` (Debug: invalid/malformed image url: ${url})` : "")
           });
         }
       } catch (err) {
