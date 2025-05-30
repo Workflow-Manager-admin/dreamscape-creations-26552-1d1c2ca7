@@ -9,6 +9,38 @@ This project provides a minimal React template with a clean, modern UI and minim
 - **Fast**: Minimal dependencies for quick loading times
 - **Simple**: Easy to understand and modify
 
+## AI Art Generation Integration
+
+DreamScape Creations now features real surreal art generation using the OpenAI DALL·E API!
+
+### How It Works
+
+- When you choose "Generate Art" and enter your dream, your prompt will be sent to OpenAI's DALL·E API to create a custom unique image.
+- Story generation remains local, template-driven for instant creative text output.
+
+### Requirements (for Art Generation)
+
+- You **must** provide an OpenAI API key (with DALL·E access enabled).
+- Set the API key in your local environment as:
+
+  ```sh
+  # In your shell or in a .env file at the project root:
+  export REACT_APP_OPENAI_API_KEY=sk-...your-openai-key...
+  ```
+  For Create React App: if using a `.env` file, name it `.env` **(not** `.env.local`) and ensure the var is prefixed with `REACT_APP_`.
+
+- The API integration uses [axios](https://github.com/axios/axios) for async HTTP requests.
+
+- If you do not set an API key, "Generate Art" will show a helpful message and not generate actual images.
+
+### OpenAI DALL·E Developer Access
+
+- [OpenAI API documentation](https://platform.openai.com/docs/guides/images/usage)
+- Sign up for an account at [https://platform.openai.com/signup](https://platform.openai.com/signup)
+- Generate or view your secret key in the API dashboard.
+
+---
+
 ## Getting Started
 
 In the project directory, you can run:
